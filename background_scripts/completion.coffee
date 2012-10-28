@@ -205,6 +205,34 @@ class TabCompleter
   computeRelevancy: (suggestion) ->
     RankingUtils.wordRelevancy(suggestion.queryTerms, suggestion.url, suggestion.title)
 
+# Queries the completion API of the Fauxbar extension.
+class FauxbarCompleter
+  filter: (queryTerms, onComplete) ->
+    chrome.management.getAll (extensions) =>
+      # I couldn't figure out how to cleanly translate long for loops into
+      # Coffeescript (embarrassing), so I shoved the body into this function.
+      doit = (e) =>
+        if (e.name == "Fauxbar" or e.name == "Fauxbar Lite") and e.enabled == true
+          eId = e.id
+          port = chrome.extension.connect(eId)
+          port.onMessage.addListener((msg) =>
+            suggestions = msg.suggestions.map (suggestion) =>
+              type = "history"
+              if suggestion.isBookmark
+                type = "bookmark"
+              if suggestion.tabId != undefined
+                type = "tab"
+              res = new Suggestion(queryTerms, type, suggestion.url, suggestion.title, @computeRelevancy)
+              res.tabId = suggestion.tabId
+              res
+            onComplete(suggestions))
+          port.postMessage({query: queryTerms.join(" ")})
+      doit e for e in extensions
+  
+  # Return a constant relevancy since Fauxbar does it for us. This depends on the
+  # relevancy sorting algorithm being stable.
+  computeRelevancy: (suggestion) -> 1
+
 # A completer which calls filter() on many completers, aggregates the results, ranks them, and returns the top
 # 10. Queries from the vomnibar frontend script come through a multi completer.
 class MultiCompleter
@@ -236,7 +264,9 @@ class MultiCompleter
 
   sortSuggestions: (suggestions) ->
     suggestion.computeRelevancy(@queryTerms) for suggestion in suggestions
-    suggestions.sort (a, b) -> b.relevancy - a.relevancy
+    # Use mergesort here because it is stable, which means it doesn't mix up
+    # the order of suggestions from the Fauxbar completion source.
+    suggestions = mergeSort suggestions, (a, b) -> b.relevancy - a.relevancy
     suggestions
 
 # Utilities which help us compute a relevancy score for a given item.
@@ -369,5 +399,6 @@ root.MultiCompleter = MultiCompleter
 root.HistoryCompleter = HistoryCompleter
 root.DomainCompleter = DomainCompleter
 root.TabCompleter = TabCompleter
+root.FauxbarCompleter = FauxbarCompleter
 root.HistoryCache = HistoryCache
 root.RankingUtils = RankingUtils

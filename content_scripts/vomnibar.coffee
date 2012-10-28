@@ -23,11 +23,15 @@ Vomnibar =
       @vomnibarUI.setQuery(initialQueryValue)
       @vomnibarUI.update()
 
-  activate: -> @activateWithCompleter("omni", 100)
-  activateInNewTab: -> @activateWithCompleter("omni", 100, null, false, true)
+  # activate: -> @activateWithCompleter("omni", 100)
+  # TODO: select the completer via a user-facing preference.
+  activate: -> @activateWithCompleter("fauxbar", 100)
+  activateInNewTab: -> @activateWithCompleter("fauxbar", 100, null, false, true)
+  activateWithCurrentUrl: -> @activateWithCompleter("fauxbar", 100, window.location.toString())
   activateTabSelection: -> @activateWithCompleter("tabs", 0, null, true)
   activateBookmarks: -> @activateWithCompleter("bookmarks", 0, null, true)
   activateBookmarksInNewTab: -> @activateWithCompleter("bookmarks", 0, null, true, true)
+
   getUI: -> @vomnibarUI
 
 

@@ -12,6 +12,7 @@
       "background_scripts/commands.js",
       "lib/clipboard.js",
       "background_scripts/settings.js",
+      "background_scripts/mergesort.js",
       "background_scripts/completion.js",
       "background_scripts/main.js"
     ]
@@ -22,7 +23,8 @@
     "bookmarks",
     "history",
     "clipboardRead",
-    "<all_urls>"
+    "<all_urls>",
+    "management"
   ],
   "content_scripts": [
     {

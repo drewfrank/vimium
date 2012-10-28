@@ -24,6 +24,7 @@ completionSources =
   history: new HistoryCompleter()
   domains: new DomainCompleter()
   tabs: new TabCompleter()
+  fauxbar: new FauxbarCompleter()
 
 completers =
   omni: new MultiCompleter([
@@ -32,6 +33,7 @@ completers =
     completionSources.domains])
   bookmarks: new MultiCompleter([completionSources.bookmarks])
   tabs: new MultiCompleter([completionSources.tabs])
+  fauxbar: new MultiCompleter([completionSources.fauxbar])
 
 chrome.extension.onConnect.addListener((port, name) ->
   senderTabId = if port.sender.tab then port.sender.tab.id else null
