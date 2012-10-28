@@ -296,7 +296,7 @@ body.vimiumFindMode ::selection {
 }
 
 #vomnibar input {
-  font-size: 20px;
+  font-size: 16px;
   padding: 4px;
   background-color: white;
   border-radius: 3px;
@@ -339,11 +339,12 @@ body.vimiumFindMode ::selection {
 #vomnibar li .vomnibarTopHalf, #vomnibar li .vomnibarBottomHalf {
   display: block;
   overflow: hidden;
+  font-size: 14px;
 }
 
 #vomnibar li .vomnibarBottomHalf {
-  font-size: 15px;
-  margin-top: 3px;
+  font-size: 12px;
+  margin-top: 2px;
   padding: 2px 0;
 }
 
