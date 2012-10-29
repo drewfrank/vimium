@@ -326,7 +326,7 @@ body.vimiumFindMode ::selection {
 #vomnibar li {
   border-bottom: 1px solid #ddd;
   line-height: 1.1em;
-  padding: 7px 10px;
+  padding: 5px 10px;
   font-size: 16px;
   color: black;
   position: relative;
@@ -334,18 +334,21 @@ body.vimiumFindMode ::selection {
 
 #vomnibar li:last-of-type {
   border-bottom: none;
+  padding: 5px 10px 0 10px;
 }
 
 #vomnibar li .vomnibarTopHalf, #vomnibar li .vomnibarBottomHalf {
   display: block;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: hidden;
   font-size: 14px;
+  padding: 0 0 2px 0;
 }
 
 #vomnibar li .vomnibarBottomHalf {
   font-size: 12px;
-  margin-top: 2px;
-  padding: 2px 0;
+  margin-top: 0;
+  padding: 2px 0 0 0;
 }
 
 #vomnibar li .vomnibarSource {
